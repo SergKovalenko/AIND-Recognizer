@@ -76,8 +76,25 @@ class SelectorBIC(ModelSelector):
         """
         warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-        # TODO implement model selection based on BIC scores
-        raise NotImplementedError
+        lowest_score = float('inf')
+        best_model = self.base_model(self.n_constant)
+
+        for idx in range(self.min_n_components, self.max_n_components + 1):
+            try:
+
+                model = self.base_model(idx)
+                parameters_n = idx ** 2 + 2 * idx * model.n_features - 1
+                score = -2 * model.score(self.X, self.lengths) + parameters_n * math.log(len(self.X))
+
+                if score < lowest_score:
+                    lowest_score = score
+                    best_model = model
+
+            except:
+                continue
+
+        return best_model
+
 
 
 class SelectorDIC(ModelSelector):
@@ -93,8 +110,31 @@ class SelectorDIC(ModelSelector):
     def select(self):
         warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-        # TODO implement model selection based on DIC scores
-        raise NotImplementedError
+
+        highest_score = float('-inf')
+        best_model = self.base_model(self.n_constant)
+
+        for i in range(self.min_n_components, self.max_n_components + 1):
+            try:
+
+                model = self.base_model(i)
+                scores = []
+
+                for word, (test_x, test_lengths) in self.hwords.items():
+                    if word != self.this_word:
+                        scores.append(model.score(test_x, test_lengths))
+
+                model_score = model.score(self.X, self.lengths)
+                score = model_score - np.mean(scores)
+
+                if score > highest_score:
+                    highest_score = score
+                    best_model = model
+
+            except:
+                continue
+
+        return best_model
 
 
 class SelectorCV(ModelSelector):
@@ -105,5 +145,25 @@ class SelectorCV(ModelSelector):
     def select(self):
         warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-        # TODO implement model selection using CV
-        raise NotImplementedError
+        highest_score = float('-inf')
+        best_model = self.base_model(self.n_constant)
+        splits = 3
+
+        for idx in range(self.min_n_components, self.max_n_components + 1):
+            try:
+
+                scores_arr = []
+
+                for train_idx, test_idx in KFold(n_splits=splits)(self.sequences):
+                    model = self.base_model(idx)
+                    test_x, test_length = combine_sequences(test_i, self.sequences)
+                    scores_arr.append(model.score(test_x, test_length))
+
+                if np.mean(scores_arr) > highest_score:
+                    highest_score = np.mean(scores_arr)
+                    best_model = model
+
+            except:
+                continue
+            
+        return best_model      
