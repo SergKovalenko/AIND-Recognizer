@@ -151,13 +151,15 @@ class SelectorCV(ModelSelector):
 
         for idx in range(self.min_n_components, self.max_n_components + 1):
             try:
-
+                model = self.base_model(idx) 
                 scores_arr = []
 
                 for train_idx, test_idx in KFold(n_splits=splits)(self.sequences):
-                    model = self.base_model(idx)
-                    test_x, test_length = combine_sequences(test_i, self.sequences)
-                    scores_arr.append(model.score(test_x, test_length))
+                    self.X, self.lengths = combine_sequences(test_idx, self.sequences)
+                    test_x, test_length = combine_sequences(train_idx, self.sequences)
+
+                    train_model = self.base_model(idx)                   
+                    scores_arr.append(train_model.score(train_idx, test_length))
 
                 if np.mean(scores_arr) > highest_score:
                     highest_score = np.mean(scores_arr)

@@ -14836,7 +14836,7 @@ Train fold indices:[0 1 2 3] Test fold indices:[4 5]
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO: Implement SelectorCV in my_model_selector.py</span>
@@ -14868,11 +14868,11 @@ Train fold indices:[0 1 2 3] Test fold indices:[4 5]
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Training complete for FISH with 3 states with time 0.042558159213513136 seconds
-Training complete for BOOK with 3 states with time 0.1318120788782835 seconds
-Training complete for VEGETABLE with 3 states with time 0.037559182150289416 seconds
-Training complete for FUTURE with 3 states with time 0.11808995506726205 seconds
-Training complete for JOHN with 3 states with time 1.1785682318732142 seconds
+<pre>Training complete for FISH with 3 states with time 0.5930084651336074 seconds
+Training complete for BOOK with 3 states with time 4.010561401955783 seconds
+Training complete for VEGETABLE with 3 states with time 1.2653267299756408 seconds
+Training complete for FUTURE with 3 states with time 4.25850745011121 seconds
+Training complete for JOHN with 3 states with time 39.1243292868603 seconds
 </pre>
 </div>
 </div>
@@ -14982,7 +14982,7 @@ Training complete for JOHN with 15 states with time 42.590894244844094 seconds
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Question 2:</strong>  Compare and contrast the possible advantages and disadvantages of the various model selectors implemented.</p>
 <p><strong>Answer 2:</strong>
-CV selector - way faster then other selectors, need less data to train, need to split data.</p>
+CV selector -faster to train then other selectors, need less data to train, need to split data.</p>
 <p>BIC selector - more time to train than CV, but less then DIC, penalizes number of parameters in model.</p>
 <p>DIC selector - longest to train, more complex the others, best performance, when scoring a model taking in account average likelihood of other words.</p>
 
@@ -15339,7 +15339,7 @@ Video  Recognized                                                    Correct
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO Choose a feature set and model selector</span>
@@ -15431,7 +15431,7 @@ Video  Recognized                                                    Correct
 <p>Although features-ground and features-plolar gives a little more then 60% error rate, using both features set (plus feature-custom) don't give huge bump in accuracy, but give only slight improvement. So using all our feature with simplest SelectorConstant gives us just a little less then 60% error rate. The only advantage of this way is small training time.</p>
 <p>SelectorBic with smaller feature set get better results then previous method. That shows that good selector with a small but good enough feature set can outperform simple selector with better and wider feature set.</p>
 <p>As expected best results achieved combining more precise selector with wider feature set.</p>
-<p>To father improving WER we need take into account not just one isolated word but other words in the sentence and especially siblings-words of the current word.</p>
+<p>To father improving WER we need take into account not just one isolated word but other words in the sentence and especially siblings-words (words before end after) of the current word.</p>
 
 </div>
 </div>
